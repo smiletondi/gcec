@@ -1,0 +1,29 @@
+<%- include('../includes/start'); %>
+
+<div class="container ">
+    <h3>Remplissez pour ajouter un conseil:</h3>
+    <div class="form-group">
+        <form class="" method="POST" action="/addConseil">
+            <div class="form-group">
+                <label for="nom">Nom du conseil</label>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrer le nom du conseil">
+            </div>
+            <div class="form-group">
+                <label for="debut">Debut de la periode</label>
+                <input type="number" class="form-control" id="debut" name="debut" placeholder="eg: 2016">
+            </div>
+            <div class="form-group">
+                <label for="fin">Fin de la periode</label>
+                <input type="number" class="form-control" id="fin" name="fin" placeholder="eg: 2019">
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include('../includes/end'); %>

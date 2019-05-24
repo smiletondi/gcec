@@ -1,0 +1,36 @@
+<%- include('../includes/start'); %>
+
+<div class="container">
+    <% if(!tabCons[0]) { %>
+    <div class="container">
+        <h3>Pas de conseils.</h3>
+        <p>Conectez-vous en tant qu'admin pour en ajouter.</p>
+    </div>
+    <% } else { %>
+    <div class="container mb-4">
+        <h3>Voici la liste des conseils:</h3>
+    </div>
+    <% tabCons.forEach(cons=>{ %>
+    <div class="card shadow d-inline-block" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title"><%= cons.nom %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Periode :<%= cons.debutPeriode %>-<%= cons.finPeriode %></h6>
+            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p> -->
+            <div class=" container d-flex">
+                <form action="" method="GET">
+                    <button class="btn btn-success btn-sm mr-2" type="submit">Selectionner</button>
+                </form>
+                <form action="/deleteConseil" method="POST">
+                    <input type="hidden" name="idConseil" value="<%= cons.id %>">
+                    <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <% })} %>
+</div>
+
+
+<%- include('../includes/end'); %>

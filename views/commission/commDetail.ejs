@@ -1,0 +1,19 @@
+<%- include('../includes/start'); %>
+
+<div class="container">
+    <h3><%= comm.nom %></h3>
+    <a class="btn btn-primary" href="/addMember">+ Ajouter membre</a>
+    <hr>
+</div>
+<div class="container">
+    <% if (!members[0]){ %>
+    <h4>Pas de membre pour l'instant veuillez en ajouter</h4>
+    <hr>
+    <% } else { %>
+    <h4><%= comm.nom %></h4>
+    <hr>
+    <% } %>
+</div>
+
+
+<%- include('../includes/end'); %>

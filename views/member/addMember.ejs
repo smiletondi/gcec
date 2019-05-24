@@ -1,0 +1,45 @@
+<%- include('../includes/start'); %>
+
+<div class="container ">
+    <div class="constainer mb-4">
+        <h3>Remplissez pour ajouter un membre:</h3>
+    </div>
+    <div class="form-group w-50">
+        <form method="POST" action="/addMember">
+            <div class="form-group">
+                <label for="nom">Nom du membre</label>
+                <input type="text" class="form-control" id="nom" name="nom"
+                    placeholder="Machkour">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom du membre</label>
+                <input type="text" class="form-control" id="prenom" name="prenom"
+                    placeholder="Mustapha">
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse du membre</label>
+                <input type="text" class="form-control" id="adresse" name="adresse"
+                    placeholder="Agadir, dakhla, faculte des sciences">
+            </div>
+            <div class="form-group">
+                <label for="tel">Numero de telephone du membre</label>
+                <input type="text" class="form-control" id="tel" name="tel"
+                    placeholder="0666666">
+            </div>
+            <div class="form-group">
+                <label for="sexe">Sexe du membre</label>
+                <input type="text" class="form-control" id="sexe" name="sexe"
+                    placeholder="M">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include('../includes/end'); %>

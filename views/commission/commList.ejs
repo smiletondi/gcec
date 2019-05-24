@@ -1,0 +1,34 @@
+<%- include('../includes/start'); %>
+
+<div class="container">
+    <% if(!tabComm[0]) { %>
+    <div class="container">
+        <h3>Pas de commission.</h3>
+        <p>Conectez-vous en tant qu'admin pour en ajouter.</p>
+    </div>
+    <% } else { %>
+    <div class="container mb-4">
+        <h3>Voici la liste des commissions:</h3>
+    </div>
+    <% tabComm.forEach(comm=>{ %>
+    <div class="card shadow d-inline-block mr-4 mb-4" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title text-center"><%= comm.nom %></h5>
+
+            <div class=" container d-flex">
+                <form action="/commission/<%= comm.id %>" method="GET">
+                    <button class="btn btn-primary btn-sm mr-2" type="submit">Plus de details</button>
+                </form>
+                <form action="/deleteComm" method="POST">
+                    <input type="hidden" name="idComm" value="<%= comm.id %>">
+                    <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <% })} %>
+</div>
+
+
+<%- include('../includes/end'); %>
