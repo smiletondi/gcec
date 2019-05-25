@@ -1,12 +1,15 @@
 <%- include('../includes/start'); %>
 
 <div class="container">
-    <h3><%= comm.nom %></h3>
-    <form action="/addMember" method="GET">
-        <input type="hidden" name="commission" value="<%= comm.id %>">
-        <button class="btn btn-primary" type="submit">+ Ajouter un membre</button>
-    </form>
-    <hr>
+    <h3><%= conseil.nom %> ( <%= conseil.debutPeriode %> - <%= conseil.finPeriode %> )</h3>
+    <div class="d-flex mb-4">
+        <form class="mr-3" action="/addMember" method="GET">
+            <input type="hidden" name="conseil" value="<%= conseil.id %>">
+            <button class="btn btn-primary" type="submit">+ Ajouter un membre</button>
+        </form>
+        <a class="btn btn-info" href="/commissionList?conseil=<%= conseil.id %>">Voir liste des commissions</a>
+        <hr>
+    </div>
 </div>
 <div class="container">
     <% if (!members[0]){ %>
@@ -46,4 +49,4 @@
     <% } %>
 </div>
 
-<%- include('../includes/end'); %>
+<%- include('../includes/end'); %></table>

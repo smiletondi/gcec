@@ -1,4 +1,6 @@
 const Commission = require('../Model/commission');
+const Conseil = require('../Model/conseil');
+const Member = require('../Model/member');
 
 module.exports.getAddComm = (req, res, next) => {
     res.render('./commission/addComm', {
@@ -17,11 +19,27 @@ module.exports.postAddComm = (req, res, next) => {
 };
 
 
-module.exports.getCommList = (req, res, next) => {
+module.exports.getCommList = async (req, res, next) => {
+    const conseils = await Conseil.findAll();
+    const conseilId = req.query.conseil;
+    if (conseilId) {
+        return Commission.findAll({
+            where: { conseilId: conseilId }
+        }).then(comms => {
+            res.render('./commission/commList', {
+                title: 'Liste des commissions',
+                tabComm: comms,
+                tabCons: conseils,
+                c: conseilId
+            });
+        }).catch(err => console.error(err));
+    }
     Commission.findAll().then(comms => {
         res.render('./commission/commList', {
             title: 'Liste des commissions',
-            tabComm: comms
+            tabComm: comms,
+            tabCons: conseils,
+            c: conseilId
         });
     }).catch(err => console.error(err));
 
@@ -33,21 +51,21 @@ module.exports.postDelComm = (req, res, next) => {
 
     Commission.destroy(
         { where: { id: id } }
-    ).then(a=>{
+    ).then(a => {
         console.log('Commission deleted');
         res.redirect('/commissionList');
     })
 };
 
 module.exports.getCommDetail = (req, res, next) => {
-    const id= req.params.id
+    const id = req.params.id
     Commission.findOne(
-        {where: {id: id}}
+        { where: { id: id }, include: [Member] }
     ).then(comm => {
         res.render('./commission/commDetail', {
-            title: 'Details de '+comm.nom,
+            title: 'Details de ' + comm.nom,
             comm: comm,
-            members: []
+            members: comm.members
         });
     }).catch(err => console.error(err));
 

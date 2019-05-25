@@ -18,9 +18,7 @@
             <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
                 content.</p> -->
             <div class=" container d-flex">
-                <form action="" method="GET">
-                    <button class="btn btn-success btn-sm mr-2" type="submit">Selectionner</button>
-                </form>
+                <a class="btn btn-info btn-sm mr-2" href="/conseil/<%= cons.id %>">Plus de detail</a>
                 <form action="/deleteConseil" method="POST">
                     <input type="hidden" name="idConseil" value="<%= cons.id %>">
                     <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>

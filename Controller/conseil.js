@@ -1,5 +1,6 @@
 const Conseil = require('../Model/conseil');
 const Commision= require("../Model/commission");
+const Member= require("../Model/member");
 
 module.exports.getConseilList = (req, res, next) => {
     Conseil.findAll().then(conseils => {
@@ -46,5 +47,19 @@ module.exports.postDeleteCons = (req, res, next) => {
         console.log('Conseil deleted');
         res.redirect('/conseilList');
     })
+
+};
+
+module.exports.getConseilDetail = (req, res, next) => {
+    const id = req.params.idConseil
+    Conseil.findOne(
+        { where: { id: id }, include: [Member] }
+    ).then(cons => {
+        res.render('./conseil/conseilDetail', {
+            title: 'Details de ' + cons.nom,
+            conseil: cons,
+            members: cons.members
+        });
+    }).catch(err => console.error(err));
 
 };

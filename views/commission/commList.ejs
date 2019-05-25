@@ -7,8 +7,23 @@
         <p>Conectez-vous en tant qu'admin pour en ajouter.</p>
     </div>
     <% } else { %>
-    <div class="container mb-4">
-        <h3>Voici la liste des commissions:</h3>
+    <div class="container mb-4 row">
+        <div class="d-inline">
+            <h3>Voici la liste des commissions de <h3>
+        </div>
+        <div class="input-group col-4">
+            <!-- <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Conseil</label>
+            </div> -->
+            <select class="custom-select" id="inputGroupSelect01" onchange="location = this.value;">
+                <option value="/commissionList">Tous les conseils</option>
+                <% tabCons.forEach(conseil=>{ %>
+                <option <%= (c==conseil.id)? 'selected' : '' %> value="/commissionList?conseil=<%= conseil.id %>">
+                    <%= conseil.nom %> ( <%= conseil.debutPeriode %> - <%= conseil.finPeriode %> )</option>
+                <% }) %>
+            </select>
+
+        </div>
     </div>
     <% tabComm.forEach(comm=>{ %>
     <div class="card shadow d-inline-block mr-4 mb-4" style="width: 18rem;">
@@ -17,7 +32,7 @@
 
             <div class=" container d-flex">
                 <form action="/commission/<%= comm.id %>" method="GET">
-                    <button class="btn btn-primary btn-sm mr-2" type="submit">Plus de details</button>
+                    <button class="btn btn-info btn-sm mr-2" type="submit">Plus de details</button>
                 </form>
                 <form action="/deleteComm" method="POST">
                     <input type="hidden" name="idComm" value="<%= comm.id %>">

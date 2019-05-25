@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session= require('express-session');
+const SequelizeSTORE= require('connect-session-sequelize')(session.Store);
+
+const sequelize= require('./util/database');
 
 var indexRouter = require('./routes/index');
 const conseilRouter = require('./routes/conseil');
@@ -15,16 +19,25 @@ const Commission= require('./Model/commission');
 const Conseil=require('./Model/conseil')
 
 var app = express();
+const sessionStore= new SequelizeSTORE({
+  db: sequelize
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'keyboard cat',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
+}))
 
 
 
@@ -41,6 +54,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  // res.locals.auth= req.session.isLoggedIn;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page

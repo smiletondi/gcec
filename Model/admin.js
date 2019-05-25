@@ -12,9 +12,9 @@ const Admin= sequelize.define('admin', {
     pass: Sequelize.STRING
 });
 
-// Admin.findOrCreate({ where: {
-//     username: 'admin',
-//     pass: 'admin'
-// }}).then(a=> console.log("admin cree"))
-// .catch(err=>console.log(err));
+Admin.findOrCreate({ where: {
+    username: 'admin',
+    pass: 'admin'
+}}).then(a=> console.log("admin cree"))
+.catch(err=>console.log(err));
 module.exports = Admin;
