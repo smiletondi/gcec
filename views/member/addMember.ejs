@@ -4,17 +4,23 @@
     <div class="constainer mb-4">
         <h3>Remplissez pour ajouter un membre:</h3>
     </div>
+    <% if (error) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong> <%= error %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% } %>
     <div class="form-group w-50">
         <form method="POST" action="/addMember">
             <div class="form-group">
                 <label for="nom">Nom du membre</label>
-                <input type="text" class="form-control" id="nom" name="nom"
-                    placeholder="Machkour">
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Machkour">
             </div>
             <div class="form-group">
                 <label for="prenom">Prenom du membre</label>
-                <input type="text" class="form-control" id="prenom" name="prenom"
-                    placeholder="Mustapha">
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Mustapha">
             </div>
             <div class="form-group">
                 <label for="adresse">Adresse du membre</label>
@@ -23,12 +29,11 @@
             </div>
             <div class="form-group">
                 <label for="tel">Numero de telephone du membre</label>
-                <input type="text" class="form-control" id="tel" name="tel"
-                    placeholder="0666666">
+                <input type="text" class="form-control" id="tel" name="tel" placeholder="0666666">
             </div>
             <div class="form-group">
                 <label for="sexe">Sexe du membre</label>
-                <br> <input type="radio" name="sexe" id="sexe" value="Masculin" checked> Masculin 
+                <br> <input type="radio" name="sexe" id="sexe" value="Masculin" checked> Masculin
                 <br> <input type="radio" name="sexe" id="sexe" value="Feminin"> Feminin
             </div>
 

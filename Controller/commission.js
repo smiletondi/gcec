@@ -1,14 +1,24 @@
 const Commission = require('../Model/commission');
 const Conseil = require('../Model/conseil');
 const Member = require('../Model/member');
+const { validationResult }= require('express-validator/check')
 
 module.exports.getAddComm = (req, res, next) => {
     res.render('./commission/addComm', {
-        title: 'Ajout commission'
+        title: 'Ajout commission',
+        errors: []
     });
 };
 module.exports.postAddComm = (req, res, next) => {
-    const nom = req.body.nom;;
+    const nom = req.body.nom;
+    const errors= validationResult(req);
+
+    if( !errors.isEmpty()){
+        return res.render('./commission/addComm', {
+            title: 'Ajout commission',
+            errors: errors.array()
+        });
+    }
 
     Commission.create({
         nom: nom

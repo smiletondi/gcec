@@ -1,23 +1,18 @@
 const Member = require('../Model/member');
+const { validationResult } = require('express-validator/check')
 
 
 module.exports.getAddMember = (req, res, next) => {
     const commId = req.query.commission;
     const conseilId = req.query.conseil;
+    const msg = req.query.msg;
 
-    if (commId) {
-        res.render('./member/addMember.ejs', {
-            title: 'Ajouter un membre',
-            id: commId,
-            type: 'commission'
-        });
-    } else if (conseilId) {
-        res.render('./member/addMember.ejs', {
-            title: 'Ajouter un membre',
-            id: conseilId,
-            type: 'conseil'
-        });
-    }
+    res.render('./member/addMember.ejs', {
+        title: 'Ajouter un membre',
+        id: commId ? commId : conseilId,
+        type: commId ? 'commission' : 'conseil',
+        error: msg
+    });
 }
 module.exports.postAddMember = (req, res, next) => {
     const nom = req.body.nom;
@@ -27,6 +22,16 @@ module.exports.postAddMember = (req, res, next) => {
     const sexe = req.body.sexe;
     const id = req.body.id;
     const type = req.body.type;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+       if (type=='commission'){
+           return res.redirect('/addMember?commission='+id+'&msg='+errors.array()[0].msg);
+        } else {
+            return res.redirect('/addMember?conseil='+id+'&msg='+errors.array()[0].msg);
+       }
+    }
 
     if (type == 'conseil') {
         Member.create({
@@ -61,8 +66,8 @@ module.exports.postAddMember = (req, res, next) => {
 module.exports.postdeleteMember = (req, res, next) => {
     const id = req.body.memberId;
     // let member;
-    const previousUrl= req.header('Referer');   // You can also use req.get('Referer);
-    console.log('the previous url was '+previousUrl);
+    const previousUrl = req.header('Referer');   // You can also use req.get('Referer);
+    console.log('the previous url was ' + previousUrl);
 
     Member.destroy({
         where: { id: id }

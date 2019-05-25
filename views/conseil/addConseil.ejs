@@ -3,7 +3,15 @@
 <div class="container ">
     <h3>Remplissez pour ajouter un conseil:</h3>
     <div class="form-group">
-        <form class="" method="POST" action="/addConseil">
+        <% if (errors[0]) { %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong><%= errors[0].msg %></strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+        <form method="POST" action="/addConseil">
             <div class="form-group">
                 <label for="nom">Nom du conseil</label>
                 <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrer le nom du conseil">

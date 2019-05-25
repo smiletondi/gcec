@@ -39,9 +39,17 @@ app.use(session({
   saveUninitialized: false
 }))
 
+// Passing  auth to all views
+app.use((req,res,next)=>{
+  res.locals.auth= req.session.isLoggedIn;
+  res.locals.pPUrl=req.get('Referer');
+  next();
+});
 
 
 app.use('/', indexRouter, conseilRouter, commRouter, memberRouter);
+// app.use('/', indexRouter);
+// app.use('/', memberRouter);
 // app.use('/', conseilRouter);
 // app.use('/', commRouter);
 

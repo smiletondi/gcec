@@ -14,6 +14,7 @@ router.get('/login', function (req, res, next) {
 router.post('/login', function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
+  const ref = req.body.pPUrl;
 
   Admin.findOne({
     where: {
@@ -23,17 +24,29 @@ router.post('/login', function (req, res, next) {
   }).then(a => {
     if (a) {
       req.session.isLoggedIn = true;
-      console.log('Admin has connected');
-      return res.redirect('/');
+      return req.session.save(err => {
+        if (err) {
+          console.log('login failed');
+        }
+        console.log('Admin has connected');
+        return res.redirect(ref);
+      });
     }
     return res.redirect('/login');
   }).catch(err => console.error(err));
 });
+
+
 router.post('/logout', (req, res, next) => {
-  const previousUrl= req.get('Referrer');
-  req.session.destroy();
-  console.log('Admin has disconnected');
-  res.redirect(previousUrl);
+  const previousUrl = req.get('Referrer');
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Logout Error');
+      res.redirect(previousUrl);
+    }
+    console.log('Admin has disconnected');
+    res.redirect(previousUrl);
+  });
 });
 
 
