@@ -24,11 +24,23 @@
             </select>
 
         </div>
+        <% if ( c ){ %>
+    </div>
+    <div class="row mb-4">
+        <form action="/addCommission" method="GET">
+            <input type="hidden" name="conseil" value="<%= c %>">
+            <button class="btn btn-primary" type="submit">+ Ajouter une commission</button>
+        </form>
+        <% } %>
+
     </div>
     <% tabComm.forEach(comm=>{ %>
     <div class="card shadow d-inline-flex mr-4 mb-4" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title text-center"><%= comm.nom %></h5>
+            <% if (!c && comm.conseil) { %>
+                <p class="text-muted">de <strong> <%= comm.conseil.nom %> </strong></p>
+            <% } %>
 
             <div class=" container d-flex">
                 <form action="/commission/<%= comm.id %>" method="GET">

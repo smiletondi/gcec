@@ -4,14 +4,19 @@ const Member = require('../Model/member');
 const { validationResult }= require('express-validator/check')
 
 module.exports.getAddComm = (req, res, next) => {
+    const conseil= req.query.conseil;
+
     res.render('./commission/addComm', {
         title: 'Ajout commission',
-        errors: []
+        errors: [],
+        cId: conseil
     });
 };
 module.exports.postAddComm = (req, res, next) => {
     const nom = req.body.nom;
     const errors= validationResult(req);
+    const conseil= req.body.cId;
+    console.log(conseil);
 
     if( !errors.isEmpty()){
         return res.render('./commission/addComm', {
@@ -19,12 +24,13 @@ module.exports.postAddComm = (req, res, next) => {
             errors: errors.array()
         });
     }
-
     Commission.create({
-        nom: nom
+        nom: nom,
+        conseilId: conseil || null
     }).then(a => {
         console.log('commission created');
-        res.redirect('/commissionList');
+        conseil ? res.redirect('/commissionList?conseil='+conseil) : res.redirect('/commissionList');
+        // res.redirect('/commissionList');
     }).catch(err => console.log(err));
 };
 
@@ -34,7 +40,7 @@ module.exports.getCommList = async (req, res, next) => {
     const conseilId = req.query.conseil;
     if (conseilId) {
         return Commission.findAll({
-            where: { conseilId: conseilId }
+            where: { conseilId: conseilId },
         }).then(comms => {
             res.render('./commission/commList', {
                 title: 'Liste des commissions',
@@ -44,7 +50,9 @@ module.exports.getCommList = async (req, res, next) => {
             });
         }).catch(err => console.error(err));
     }
-    Commission.findAll().then(comms => {
+    Commission.findAll({
+        include: [Conseil]
+    }).then(comms => {
         res.render('./commission/commList', {
             title: 'Liste des commissions',
             tabComm: comms,
