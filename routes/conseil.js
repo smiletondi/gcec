@@ -10,14 +10,14 @@ const checkAddConseil = [
         .isString()
         .isLength({ min: 3 })
         .trim(),
-    body('debut', 'Entrer un debut de periode valide (4 characteres)')
-        .isNumeric()
-        .isLength({ min: 4, max: 4 })
-        .trim(),
-    body('fin', 'Entrer une fin de periode valide (4 characteres)')
-        .isNumeric()
-        .isLength({ min: 4, max: 4 })
-        .trim()
+    // body('debut', 'Entrer un debut de periode valide (4 characteres)')
+    //     .custom(isValideDate)
+    //     .isLength({ min: 4, max: 4 })
+    //     .trim(),
+    // body('fin', 'Entrer une fin de periode valide (4 characteres)')
+    //     .isNumeric()
+    //     .isLength({ min: 4, max: 4 })
+    //     .trim()
 
 ];
 router.post('/addConseil', isAuth, checkAddConseil, conseilController.postAddConseil);

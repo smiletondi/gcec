@@ -1,0 +1,30 @@
+<%- include('../includes/start'); %>
+
+<div class="container ">
+    <div class="constainer mb-4">
+        <h4>Remplissez pour ajouter un membre:</h3>
+        <p class="text-muted"> Utilisez cmd(Mac) ou ctrl(Windows) pour selectionner pusieurs.</p>
+    </div>
+    <div class="constainer w-50">
+        <form method="POST" action="/addMemberComm">
+            <div class="form-group">
+                <label for="membre">Selectionner les membres:</label>
+                <select size="<%= members.length %>" id="mwembre" name="membre" class="custom-select" multiple>
+                    <% members.forEach( member=> { %>
+                    <option value="<%= member.id %>"><%= member.nom %> <%= member.prenom %></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <input type="hidden" name="commId" value="<%= commId %>">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include('../includes/end'); %>

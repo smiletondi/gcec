@@ -16,7 +16,8 @@ const memberRouter= require('./routes/member');
 // Models
 const Admin = require('./Model/admin');
 const Commission= require('./Model/commission');
-const Conseil=require('./Model/conseil')
+const Conseil=require('./Model/conseil');
+const CommissionMembers= require('./Model/commissionMembers')
 
 var app = express();
 const sessionStore= new SequelizeSTORE({

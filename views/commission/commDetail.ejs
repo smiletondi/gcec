@@ -34,8 +34,9 @@
                     <td><%= member.tel %></td>
                     <td><%= member.sexe %></td>
                     <td>
-                        <form action="/deleteMember" method="post">
+                        <form action="/deleteMemberComm" method="post">
                             <input type="hidden" name="memberId" value="<%= member.id %>">
+                            <input type="hidden" name="commId" value="<%= comm.id %>">
                             <button class="btn btn-danger" type="submit">Supprimer</button>
                         </form>
                     </td>

@@ -8,14 +8,8 @@ const Conseil= sequelize.define('conseil',{
         primaryKey: true,
         autoIncrement: true
     },
-    debutPeriode: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
-    finPeriode: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
+    debutPeriode: Sequelize.DATEONLY,
+    finPeriode: Sequelize.DATEONLY,
     nom: {
         type: Sequelize.STRING,
         allowNull: false,

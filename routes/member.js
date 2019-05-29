@@ -18,15 +18,17 @@ const checkAddMember= [
         .isLength({min: 5})
         .trim(),
     body('tel', 'Entrez un numero de telephone')
-        .isNumeric()
-        .isLength({min: 8})
+        .isAlphanumeric()
+        .isLength({min: 6})
         .trim(),
     body('sexe', 'selectionner votre sexe')
-        .matches('Masculin','Feminin')
+        .isIn(['Masculin','Feminin'])
         .trim()
 ];
-router.post('/addMember', isAuth, checkAddMember, memberController.postAddMember);
+router.post('/addMemberCons', isAuth, checkAddMember, memberController.postAddMemberCons);
+router.post('/addMemberComm', isAuth, memberController.postAddMemberComm);
 
 router.post('/deleteMember', isAuth, memberController.postdeleteMember)
+router.post('/deleteMemberComm', isAuth, memberController.postdeleteMemberComm)
 
 module.exports = router;

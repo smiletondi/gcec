@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
-const Commission = require('./commission');
 const Conseil = require('./conseil');
 
 const Member = sequelize.define('member', {
@@ -13,21 +12,12 @@ const Member = sequelize.define('member', {
     nom: Sequelize.STRING,
     prenom: Sequelize.STRING,
     adresse: Sequelize.STRING,
-    tel: Sequelize.INTEGER,
+    tel: Sequelize.DOUBLE,
     sexe: Sequelize.STRING,
 }, {
         timestamps: false
     });
 
-// Setting up relations between modals (Member and Commission)
-Member.belongsTo(Commission, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
-});
-Commission.hasMany(Member, {
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
-});
 
 // Setting up relations between modals (Member and Commission)
 Member.belongsTo(Conseil, {

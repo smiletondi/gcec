@@ -1,20 +1,48 @@
 const Member = require('../Model/member');
-const { validationResult } = require('express-validator/check')
+const Commission = require('../Model/commission');
+const CommissionMembers = require('../Model/commissionMembers');
+const Conseil = require('../Model/conseil');
+const {
+    validationResult
+} = require('express-validator/check')
 
 
-module.exports.getAddMember = (req, res, next) => {
+module.exports.getAddMember = async (req, res, next) => {
     const commId = req.query.commission;
     const conseilId = req.query.conseil;
     const msg = req.query.msg;
 
-    res.render('./member/addMember.ejs', {
-        title: 'Ajouter un membre',
-        id: commId ? commId : conseilId,
-        type: commId ? 'commission' : 'conseil',
-        error: msg
-    });
+
+    if (commId) {
+        const comm = await Commission.findOne({
+            where: {
+                id: commId
+            }
+        });
+        const conseil = await Conseil.findOne({
+            where: {
+                id: comm.conseilId
+            },
+            include: Member
+        });
+
+        // console.log(conseil.members);
+        return res.render('./member/addMemberComm.ejs', {
+            title: 'Ajouter un membre',
+            commId: commId,
+            members: conseil.members
+        });
+    } else if (conseilId) {
+        return res.render('./member/addMemberCons.ejs', {
+            title: 'Ajouter un membre',
+            id: conseilId,
+            type: commId ? 'commission' : 'conseil',
+            error: msg
+        });
+    }
+    throw new Error('Error when adding a member');
 }
-module.exports.postAddMember = (req, res, next) => {
+module.exports.postAddMemberCons = (req, res, next) => {
     const nom = req.body.nom;
     const prenom = req.body.prenom;
     const adresse = req.body.adresse;
@@ -26,11 +54,11 @@ module.exports.postAddMember = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-       if (type=='commission'){
-           return res.redirect('/addMember?commission='+id+'&msg='+errors.array()[0].msg);
+        if (type == 'commission') {
+            return res.redirect('/addMember?commission=' + id + '&msg=' + errors.array()[0].msg);
         } else {
-            return res.redirect('/addMember?conseil='+id+'&msg='+errors.array()[0].msg);
-       }
+            return res.redirect('/addMember?conseil=' + id + '&msg=' + errors.array()[0].msg);
+        }
     }
 
     if (type == 'conseil') {
@@ -62,15 +90,52 @@ module.exports.postAddMember = (req, res, next) => {
 
 
 }
+module.exports.postAddMemberComm = async (req, res, next) => {
+    const sM = req.body.membre;
+    const selectedMembers = Array.isArray(sM) ? sM : [sM];
+    const commId = req.body.commId;
+
+    const comm = await Commission.findOne({
+        where: {
+            id: commId
+        }
+    });
+    await Promise.all(selectedMembers.map(async memberId => {
+        const member = await Member.findOne({
+            where: {
+                id: memberId
+            }
+        });
+        await comm.addMember(member);
+    }));
+
+    return res.redirect('/commission/' + commId);
+}
 
 module.exports.postdeleteMember = (req, res, next) => {
     const id = req.body.memberId;
-    // let member;
-    const previousUrl = req.header('Referer');   // You can also use req.get('Referer);
-    console.log('the previous url was ' + previousUrl);
+    const previousUrl = req.header('Referer'); // You can also use req.get('Referer);
 
     Member.destroy({
-        where: { id: id }
+        where: {
+            id: id
+        }
+    }).then(rez => {
+        console.log('Member deleted');
+        res.redirect(previousUrl);
+    }).catch(err => console.error(err));
+}
+module.exports.postdeleteMemberComm = (req, res, next) => {
+    const memberId = req.body.memberId;
+    const commId = req.body.commId;
+
+    const previousUrl = req.header('Referer'); // You can also use req.get('Referer);
+
+    CommissionMembers.destroy({
+        where: {
+            memberId: memberId,
+            commissionId: commId
+        }
     }).then(rez => {
         console.log('Member deleted');
         res.redirect(previousUrl);
