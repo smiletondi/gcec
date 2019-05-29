@@ -101,12 +101,14 @@ module.exports.postAddMemberComm = async (req, res, next) => {
         }
     });
     await Promise.all(selectedMembers.map(async memberId => {
-        const member = await Member.findOne({
+        await Member.findOne({
             where: {
                 id: memberId
             }
-        });
-        await comm.addMember(member);
+        }).then(async member=>{
+            await comm.addMember(member);
+            console.log('Member added to commission');
+        }).catch(err=>next(err));
     }));
 
     return res.redirect('/commission/' + commId);
@@ -137,7 +139,7 @@ module.exports.postdeleteMemberComm = (req, res, next) => {
             commissionId: commId
         }
     }).then(rez => {
-        console.log('Member deleted');
+        console.log('Member deleted from commission');
         res.redirect(previousUrl);
     }).catch(err => console.error(err));
 }

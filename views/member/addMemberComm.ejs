@@ -9,7 +9,7 @@
         <form method="POST" action="/addMemberComm">
             <div class="form-group">
                 <label for="membre">Selectionner les membres:</label>
-                <select size="<%= members.length %>" id="mwembre" name="membre" class="custom-select" multiple>
+                <select size="<%= members.length %>" id="mwembre" name="membre" class="custom-select" required multiple>
                     <% members.forEach( member=> { %>
                     <option value="<%= member.id %>"><%= member.nom %> <%= member.prenom %></option>
                     <% }) %>

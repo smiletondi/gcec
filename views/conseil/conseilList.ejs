@@ -22,43 +22,49 @@
                 <a class="btn btn-info btn-sm mr-2" href="/conseil/<%= cons.id %>">Plus de detail</a>
                 <form action="/deleteConseil" method="POST">
                     <input type="hidden" name="idConseil" value="<%= cons.id %>">
-                    <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
-                </form>
+                    <button id="supprimer" class="btn btn-danger btn-sm" type="button" data-toggle="modal"
+                        data-target="#modal">
+                        Supprimer
+                    </button>
 
+                </form>
             </div>
         </div>
     </div>
     <% })} %>
 </div>
 
-<!-- <div class="container">
-    <button class="btn btn-danger" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete">
-        Delete record #54
-    </button>
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    ...
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-ok">Delete</a>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation de suppression</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Etes-vous s&ubreve;r de vouloir supprimer ce conseil ainsi que tous ses descendants (
+                membres, commissions etc... ) ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                <button id="confButton" class="btn btn-danger btn-lg" type="button">Oui</button>
             </div>
         </div>
     </div>
 </div>
-</div>
-
-<script>
-    $('#confirm-delete').on('show.bs.modal', function (e) {
-        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-    });
-</script> -->
 
 <%- include('../includes/end'); %>
+
+<script>
+    $('#modal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget); // Button that triggered the modal
+
+        var confButton = $('#confButton');
+        confButton.click(() => {
+            button.closest('form').submit();    // submit the form where the button is contained
+        })
+    })
+</script>
