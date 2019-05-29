@@ -23,6 +23,8 @@
                     <th scope="col">Adresse</th>
                     <th scope="col">Telephone</th>
                     <th scope="col">Sexe</th>
+                    <th scope="col">Date d'entrée</th>
+                    <th scope="col">Date de sortie</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +35,8 @@
                     <td><%= member.adresse %></td>
                     <td><%= member.tel %></td>
                     <td><%= member.sexe %></td>
+                    <td><%= member.dateEntree %></td>
+                    <td><%= member.dateSortie %></td>
                     <td>
                         <form action="/deleteMemberComm" method="post">
                             <input type="hidden" name="memberId" value="<%= member.id %>">

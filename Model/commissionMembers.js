@@ -4,8 +4,7 @@ const Commission = require('./commission');
 const Member = require('./member');
 
 const CommissionMembers = sequelize.define('commissionMembers', {
-    dateEntree: Sequelize.DATE,
-    dateSortie: Sequelize.DATE
+
 }, {
     timestamps: false
 });

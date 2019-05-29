@@ -42,7 +42,7 @@ module.exports.getAddMember = async (req, res, next) => {
     }
     throw new Error('Error when adding a member');
 }
-module.exports.postAddMemberCons = (req, res, next) => {
+module.exports.postAddMemberCons = async (req, res, next) => {
     const nom = req.body.nom;
     const prenom = req.body.prenom;
     const adresse = req.body.adresse;
@@ -54,40 +54,24 @@ module.exports.postAddMemberCons = (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        if (type == 'commission') {
-            return res.redirect('/addMember?commission=' + id + '&msg=' + errors.array()[0].msg);
-        } else {
-            return res.redirect('/addMember?conseil=' + id + '&msg=' + errors.array()[0].msg);
-        }
+        return res.redirect('/addMember?conseil=' + id + '&msg=' + errors.array()[0].msg);
     }
 
-    if (type == 'conseil') {
-        Member.create({
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            tel: tel,
-            sexe: sexe,
-            conseilId: id
-        }).then(a => {
-            console.log('Conseil Member created');
-            res.redirect('/conseil/' + id);
-        }).catch(err => console.error(err));
-    } else if (type == 'commission') {
-        Member.create({
-            nom: nom,
-            prenom: prenom,
-            adresse: adresse,
-            tel: tel,
-            sexe: sexe,
-            commissionId: id
-        }).then(a => {
-            console.log('Commission Member created');
-            res.redirect('/commission/' + id);
-        }).catch(err => console.error(err));
-    }
+    const conseil= await Conseil.findOne({ where : { id: id}});
 
-
+    Member.create({
+        nom: nom,
+        prenom: prenom,
+        adresse: adresse,
+        tel: tel,
+        sexe: sexe,
+        conseilId: conseil.id,
+        dateEntree: conseil.debutPeriode,
+        dateSortie: conseil.finPeriode
+    }).then(a => {
+        console.log('Conseil Member created');
+        res.redirect('/conseil/' + id);
+    }).catch(err => console.error(err));
 
 }
 module.exports.postAddMemberComm = async (req, res, next) => {
@@ -105,10 +89,10 @@ module.exports.postAddMemberComm = async (req, res, next) => {
             where: {
                 id: memberId
             }
-        }).then(async member=>{
+        }).then(async member => {
             await comm.addMember(member);
             console.log('Member added to commission');
-        }).catch(err=>next(err));
+        }).catch(err => next(err));
     }));
 
     return res.redirect('/commission/' + commId);

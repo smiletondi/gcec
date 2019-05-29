@@ -19,7 +19,7 @@
                 <option value="/commissionList">Tous les conseils</option>
                 <% tabCons.forEach(conseil=>{ %>
                 <option <%= (c==conseil.id)? 'selected' : '' %> value="/commissionList?conseil=<%= conseil.id %>">
-                    <%= conseil.nom %> ( <%= conseil.debutPeriode %> - <%= conseil.finPeriode %> )</option>
+                    <%= conseil.nom %></option>
                 <% }) %>
             </select>
 
