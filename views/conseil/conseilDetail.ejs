@@ -3,21 +3,26 @@
 <div class="container">
     <h3><%= conseil.nom %> ( <%= conseil.debutPeriode %> - <%= conseil.finPeriode %> )</h3>
     <div class="d-flex mb-4">
-        <form class="mr-3" action="/addMember" method="GET">
-            <input type="hidden" name="conseil" value="<%= conseil.id %>">
-            <button class="btn btn-primary" type="submit">+ Ajouter un membre</button>
-        </form>
+        <div class="btn-group mr-3">
+            <a class="btn btn-primary " href="/addMember?conseil=<%= conseil.id %>">+ Ajouter un membre</a>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item bg-light" href="/ajoutExeptionnel?conseil=<%= conseil.id %>">Ajout exceptionnel</a>
+            </div>
+        </div>
         <a class="btn btn-info mr-4" href="/commissionList?conseil=<%= conseil.id %>">Voir liste des commissions</a>
         <a class="btn btn-success" href="/download?conseil=<%= conseil.id %>">Telecharger le rapport</a>
         <hr>
     </div>
 </div>
 <div class="container">
-    <% if (!members[0]){ %>
-    <h4>Pas de membre pour l'instant veuillez en ajouter</h4>
+    <% if (!currentMembers[0]){ %>
+    <h4>Pas de membre courant pour l'instant veuillez en ajouter</h4>
     <hr>
     <% } else { %>
-    <h4>Liste des membres</h4>
+    <h4>Liste des membres courants</h4>
     <div class="container">
         <table class="table table-hover">
             <thead>
@@ -32,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% members.forEach(member=>{ %>
+                <% currentMembers.forEach(member=>{ %>
                 <tr>
                     <th scope="row"><%= member.nom %></th>
                     <td><%= member.prenom %></td>
@@ -48,6 +53,46 @@
                                 data-target="#modal">Supprimer</button>
                         </form>
                     </td>
+                </tr>
+                <% }) %>
+        </table>
+    </div>
+    <% } %>
+    <% if (!oldMembers[0]){ %>
+    <h4>Pas d'anciens membres</h4>
+    <hr>
+    <% } else { %>
+    <h4>Liste des anciens membres</h4>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">Sexe</th>
+                    <th scope="col">Date d'entrée</th>
+                    <th scope="col">Date de sortie</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% oldMembers.forEach(member=>{ %>
+                <tr>
+                    <th scope="row"><%= member.nom %></th>
+                    <td><%= member.prenom %></td>
+                    <td><%= member.adresse %></td>
+                    <td><%= member.tel %></td>
+                    <td><%= member.sexe %></td>
+                    <td><%= member.dateEntree %></td>
+                    <td><%= member.dateSortie %></td>
+                    <!-- <td>
+                        <form action="/deleteOldMember" method="post">
+                            <input type="hidden" name="memberId" value="<%= member.id %>">
+                            <button class="btn btn-danger" type="button" data-toggle="modal"
+                                data-target="#modal">Supprimer</button>
+                        </form>
+                    </td> -->
                 </tr>
                 <% }) %>
         </table>

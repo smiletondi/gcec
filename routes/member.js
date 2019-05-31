@@ -28,6 +28,9 @@ const checkAddMember= [
 router.post('/addMemberCons', isAuth, checkAddMember, memberController.postAddMemberCons);
 router.post('/addMemberComm', isAuth, memberController.postAddMemberComm);
 
+router.get('/ajoutExeptionnel', isAuth, memberController.getAddEceptionnalMember);
+router.post('/ajoutExeptionnel', isAuth, memberController.postAddEceptionnalMember);
+
 router.post('/deleteMember', isAuth, memberController.postdeleteMember)
 router.post('/deleteMemberComm', isAuth, memberController.postdeleteMemberComm)
 

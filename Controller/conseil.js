@@ -1,5 +1,6 @@
 const Conseil = require('../Model/conseil');
 const Commision = require("../Model/commission");
+const ChangedMember= require('../Model/changedMember')
 const Member = require("../Model/member");
 const { validationResult } = require('express-validator/check')
 
@@ -63,14 +64,18 @@ module.exports.postDeleteCons = (req, res, next) => {
 module.exports.getConseilDetail = (req, res, next) => {
     const id = req.params.idConseil
     Conseil.findOne(
-        { where: { id: id }, include: [Member] }
+        { where: { id: id }, include: [Member, ChangedMember] }
     ).then(cons => {
         res.render('./conseil/conseilDetail', {
             title: 'Details de ' + cons.nom,
             conseil: cons,
-            members: cons.members
+            currentMembers: cons.members,
+            oldMembers: cons.changedMembers
         });
-    }).catch(err => console.error(err));
+    }).catch(err =>{
+        console.error(err);
+        next(err);
+    });
 
 };
 

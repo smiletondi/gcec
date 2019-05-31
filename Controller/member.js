@@ -1,6 +1,7 @@
 const Member = require('../Model/member');
 const Commission = require('../Model/commission');
 const CommissionMembers = require('../Model/commissionMembers');
+const ChangedMember = require('../Model/changedMember');
 const Conseil = require('../Model/conseil');
 const {
     validationResult
@@ -57,7 +58,11 @@ module.exports.postAddMemberCons = async (req, res, next) => {
         return res.redirect('/addMember?conseil=' + id + '&msg=' + errors.array()[0].msg);
     }
 
-    const conseil= await Conseil.findOne({ where : { id: id}});
+    const conseil = await Conseil.findOne({
+        where: {
+            id: id
+        }
+    });
 
     Member.create({
         nom: nom,
@@ -126,4 +131,69 @@ module.exports.postdeleteMemberComm = (req, res, next) => {
         console.log('Member deleted from commission');
         res.redirect(previousUrl);
     }).catch(err => console.error(err));
+}
+module.exports.getAddEceptionnalMember = async (req, res, next) => {
+    const conseilId = req.query.conseil;
+    const conseil = await Conseil.findOne({
+        where: {
+            id: conseilId
+        }
+    });
+    const conseilMembers = await conseil.getMembers();
+    console.log(conseilMembers);
+    return res.render('./member/addChangedMember.ejs', {
+        title: 'Ajouter un membre',
+        conseilId: conseilId,
+        members: conseilMembers
+    });
+}
+module.exports.postAddEceptionnalMember = async (req, res, next) => {
+    const memberId = req.body.membre;
+    const dateEntree = req.body.dateEntree;
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const adresse = req.body.adresse;
+    const tel = req.body.tel;
+    const sexe = req.body.sexe;
+    const conseilId = req.body.id;
+    const conseil = await Conseil.findOne({
+        where: {
+            id: conseilId
+        }
+    });
+    const oldMember =await  Member.findOne({
+        where: {
+            id: memberId
+        }
+    });
+    let newMember;
+    Member.create({
+        nom: nom,
+        prenom: prenom,
+        adresse: adresse,
+        tel: tel,
+        sexe: sexe,
+        dateEntree: dateEntree,
+        dateSortie: conseil.finPeriode,
+        conseilId: conseilId
+    }).then(rez => {
+        newMember = rez;
+        console.log('New member created');
+        return ChangedMember.create({
+            nom: oldMember.nom,
+            prenom: oldMember.prenom,
+            adresse: oldMember.adresse,
+            tel: oldMember.tel,
+            sexe: oldMember.sexe,
+            dateEntree: oldMember.dateEntree,
+            dateSortie: dateEntree,
+            conseilId: conseilId
+        });
+    }).then(rez=>{
+        console.log('Changed member created');
+        return Member.destroy({where: { id: memberId}});
+    }).then(()=>{
+        console.log('Old member deleted from Member');
+        res.redirect('/conseil/'+conseilId);
+    }).catch(err => next(err));
 }

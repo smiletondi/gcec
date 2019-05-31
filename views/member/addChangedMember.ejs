@@ -1,0 +1,55 @@
+<%- include('../includes/start'); %>
+
+<div class="container ">
+    <div class="constainer mb-4">
+        <h3>Remplissez pour ajouter un membre:</h3>
+    </div>
+    <div class="form-group w-50">
+        <form method="POST" action="/ajoutExeptionnel">
+            <div class="form-group">
+                    <label for="membre">Membre a changer:</label>
+                    <select id="mwembre" name="membre" class="custom-select" required >
+                        <% members.forEach( member=> { %>
+                        <option value="<%= member.id %>"><%= member.nom %> <%= member.prenom %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            <div class="form-group">
+                <label for="dateEntree">Date d'entree du nouveau membre</label>
+                <input type="date" class="form-control" id="dateEntree" name="dateEntree">
+            </div>
+            <div class="form-group">
+                <label for="nom">Nom du du nouveau membre</label>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrez un nom">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom du nouveau membre</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Entrez un prenom">
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse du nouveau membre</label>
+                <input type="text" class="form-control" id="adresse" name="adresse"
+                    placeholder="Entrez une adresse">
+            </div>
+            <div class="form-group">
+                <label for="tel">Numero de telephone du nouveau membre</label>
+                <input type="text" class="form-control" id="tel" name="tel" placeholder="Entrez un numero">
+            </div>
+            <div class="form-group">
+                <label for="sexe">Sexe du nouveau membre</label>
+                <br> <input type="radio" name="sexe" id="sexe" value="Masculin" checked> Masculin
+                <br> <input type="radio" name="sexe" id="sexe" value="Feminin"> Feminin
+            </div>
+
+            <input type="hidden" name="id" value="<%= conseilId %>">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include('../includes/end'); %>
