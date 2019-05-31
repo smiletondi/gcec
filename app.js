@@ -3,24 +3,25 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const session= require('express-session');
-const SequelizeSTORE= require('connect-session-sequelize')(session.Store);
+const session = require('express-session');
+const SequelizeSTORE = require('connect-session-sequelize')(session.Store);
 
-const sequelize= require('./util/database');
+
+const sequelize = require('./util/database');
 
 var indexRouter = require('./routes/index');
 const conseilRouter = require('./routes/conseil');
 const commRouter = require('./routes/commission');
-const memberRouter= require('./routes/member');
+const memberRouter = require('./routes/member');
 
 // Models
 const Admin = require('./Model/admin');
-const Commission= require('./Model/commission');
-const Conseil=require('./Model/conseil');
-const CommissionMembers= require('./Model/commissionMembers')
+const Commission = require('./Model/commission');
+const Conseil = require('./Model/conseil');
+const CommissionMembers = require('./Model/commissionMembers')
 
 var app = express();
-const sessionStore= new SequelizeSTORE({
+const sessionStore = new SequelizeSTORE({
   db: sequelize
 });
 
@@ -30,9 +31,12 @@ app.set('view engine', 'ejs');
 
 // app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'images')));
 app.use(session({
   secret: 'keyboard cat',
   store: sessionStore,
@@ -41,9 +45,9 @@ app.use(session({
 }))
 
 // Passing  auth to all views
-app.use((req,res,next)=>{
-  res.locals.auth= req.session.isLoggedIn;
-  res.locals.pPUrl=req.get('Referer');
+app.use((req, res, next) => {
+  res.locals.auth = req.session.isLoggedIn;
+  res.locals.pPUrl = req.get('Referer');
   next();
 });
 

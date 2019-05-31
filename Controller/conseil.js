@@ -73,3 +73,7 @@ module.exports.getConseilDetail = (req, res, next) => {
     }).catch(err => console.error(err));
 
 };
+
+module.exports.downloadRapport = (req,res,next)=>{
+    console.log('downloading rapport ...');
+}

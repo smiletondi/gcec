@@ -5,6 +5,7 @@
     <form action="/addMember" method="GET">
         <input type="hidden" name="commission" value="<%= comm.id %>">
         <button class="btn btn-primary" type="submit">+ Ajouter un membre</button>
+        <a class="btn btn-success" href="/download?commission=<%= comm.id %>">Telecharger le rapport</a>
     </form>
     <hr>
 </div>
