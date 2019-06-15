@@ -15,7 +15,10 @@ const Member = sequelize.define('member', {
     tel: Sequelize.DOUBLE,
     sexe: Sequelize.STRING,
     dateEntree: Sequelize.DATEONLY,
-    dateSortie: Sequelize.DATEONLY
+    dateSortie: Sequelize.DATEONLY,
+    remplace: Sequelize.BOOLEAN,
+    remplacePar: Sequelize.INTEGER,
+    aRemplace: Sequelize.INTEGER
 }, {
         timestamps: false
     });

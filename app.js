@@ -19,6 +19,7 @@ const Admin = require('./Model/admin');
 const Commission = require('./Model/commission');
 const Conseil = require('./Model/conseil');
 const CommissionMembers = require('./Model/commissionMembers')
+const Member = require('./Model/member');
 
 var app = express();
 const sessionStore = new SequelizeSTORE({
@@ -72,6 +73,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
+  console.log(err);
   res.render('error');
 });
 

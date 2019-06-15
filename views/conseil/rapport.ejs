@@ -1,0 +1,49 @@
+<style>
+</style>
+<body>
+<%- include('../includes/head'); %>
+
+<div class="container">
+    <div class="text-center">
+        <img src="/images/FS-Agadir-logo.png" alt="Logo FSA" class=" img-fluid" style="max-width: 25%; height: auto;">
+    </div>
+</div>
+<div class="container mb-4">
+    <div class="text-center">
+        <h1>Faculte des sciences d'Agadir</h1>
+        <% if (instance.conseilId){ %>
+            <h2><%= instance.conseil.nom %></h2>
+            <h3><%= instance.nom %></h3>
+        <% } else { %>
+        <h2><%= instance.nom %></h2>
+        <% } %>
+    </div>
+    <br><br><br><br>
+    <div class="text-right">
+        <h5> <u>Date:</u> <%= date %></h5>
+    </div>
+    <br><br><br><br><br><br>
+</div>
+<div class="container">
+    <table class="table table-bordered">
+        <thead class="thead-light" >
+            <tr>
+                <th scope="col">Nom & Prenom</th>
+                <th scope="col">Qualit&eacute;</th>
+                <th scope="col">Signature</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% members.forEach( member => { %>
+            <tr>
+                <td><strong><%= member.nom %></strong> <%= member.prenom %></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+
+<%- include('../includes/end'); %>

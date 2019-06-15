@@ -1,7 +1,6 @@
 const Member = require('../Model/member');
 const Commission = require('../Model/commission');
 const CommissionMembers = require('../Model/commissionMembers');
-const ChangedMember = require('../Model/changedMember');
 const Conseil = require('../Model/conseil');
 const {
     validationResult
@@ -20,18 +19,18 @@ module.exports.getAddMember = async (req, res, next) => {
                 id: commId
             }
         });
-        const conseil = await Conseil.findOne({
+        const conseil = await comm.getConseil();
+        const members= await conseil.getMembers({
+            raw: true,
             where: {
-                id: comm.conseilId
-            },
-            include: Member
+                remplace: null
+            }
         });
-
-        // console.log(conseil.members);
+        
         return res.render('./member/addMemberComm.ejs', {
             title: 'Ajouter un membre',
             commId: commId,
-            members: conseil.members
+            members: members
         });
     } else if (conseilId) {
         return res.render('./member/addMemberCons.ejs', {
@@ -101,7 +100,7 @@ module.exports.postAddMemberComm = async (req, res, next) => {
     }));
 
     return res.redirect('/commission/' + commId);
-}
+};
 
 module.exports.postdeleteMember = (req, res, next) => {
     const id = req.body.memberId;
@@ -139,8 +138,11 @@ module.exports.getAddEceptionnalMember = async (req, res, next) => {
             id: conseilId
         }
     });
-    const conseilMembers = await conseil.getMembers();
-    console.log(conseilMembers);
+    const conseilMembers = await conseil.getMembers({
+        where: {
+            remplace: null
+        }
+    });
     return res.render('./member/addChangedMember.ejs', {
         title: 'Ajouter un membre',
         conseilId: conseilId,
@@ -175,25 +177,17 @@ module.exports.postAddEceptionnalMember = async (req, res, next) => {
         sexe: sexe,
         dateEntree: dateEntree,
         dateSortie: conseil.finPeriode,
+        aRemplce: oldMember.id,
         conseilId: conseilId
     }).then(rez => {
-        newMember = rez;
         console.log('New member created');
-        return ChangedMember.create({
-            nom: oldMember.nom,
-            prenom: oldMember.prenom,
-            adresse: oldMember.adresse,
-            tel: oldMember.tel,
-            sexe: oldMember.sexe,
-            dateEntree: oldMember.dateEntree,
-            dateSortie: dateEntree,
-            conseilId: conseilId
+        return oldMember.update({
+            dateSortie: rez.dateEntree,
+            remplace: true,
+            remplacePar: rez.id
         });
     }).then(rez=>{
-        console.log('Changed member created');
-        return Member.destroy({where: { id: memberId}});
-    }).then(()=>{
-        console.log('Old member deleted from Member');
+        console.log('Old member added');
         res.redirect('/conseil/'+conseilId);
     }).catch(err => next(err));
 }

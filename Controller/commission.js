@@ -16,7 +16,7 @@ module.exports.postAddComm = (req, res, next) => {
     const nom = req.body.nom;
     const errors= validationResult(req);
     const conseil= req.body.cId;
-    console.log(conseil);
+    // console.log(conseil);
 
     if( !errors.isEmpty()){
         return res.render('./commission/addComm', {
