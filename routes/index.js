@@ -46,29 +46,29 @@ router.get('/download', async (req, res, next) => {
   }
 
   try {
-  const rapportName = 'Rapport ' + instanceName + ' ' + theDate + '.pdf';
-  const rapportPath = path.join(__dirname, '../', 'rapports', rapportName);
-  // console.log(rapportPath);
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto(url, {
-    waitUntil: 'networkidle2'
-  });
-  await page.pdf({
-    path: rapportPath,
-    format: 'A4'
-  });
+    const rapportName = 'Rapport ' + instanceName + ' ' + theDate + '.pdf';
+    const rapportPath = path.join(__dirname, '../', 'rapports', rapportName);
 
-  await browser.close();
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url, {
+      waitUntil: 'networkidle0'
+    });
+    await page.pdf({
+      path: rapportPath,
+      format: 'A4'
+    }).then(a => console.log(instanceName + " Report generated"));
 
-  res.set({
-    'Content-type': 'application/pdf',
-    'Content-Disposition': 'inline; filename="' + rapportName + '"'
-  });
-  const finalRapport = fs.createReadStream(rapportPath);
+    browser.close();    // I don't wait for the browser to close to send the response
+
+    res.set({
+      'Content-type': 'application/pdf',
+      'Content-Disposition': 'inline; filename="' + rapportName + '"'
+    });
+    const finalRapport = fs.createReadStream(rapportPath);
     finalRapport.pipe(res);
   } catch {
-    throw new Error('Error when delivering the file to res');
+    throw new Error('Error when delivering the pdf report to the response');
   }
 
 });

@@ -31,7 +31,10 @@ router.post('/addMemberComm', isAuth, memberController.postAddMemberComm);
 router.get('/ajoutExeptionnel', isAuth, memberController.getAddEceptionnalMember);
 router.post('/ajoutExeptionnel', isAuth, memberController.postAddEceptionnalMember);
 
-router.post('/deleteMember', isAuth, memberController.postdeleteMember)
-router.post('/deleteMemberComm', isAuth, memberController.postdeleteMemberComm)
+router.post('/deleteMember', isAuth, memberController.postdeleteMember);
+router.post('/deleteMemberComm', isAuth, memberController.postdeleteMemberComm);
+
+router.get('/modifyMember/:member', isAuth, memberController.getModifyMember);
+router.post('/modifyMember', isAuth, memberController.postModifyMember);
 
 module.exports = router;

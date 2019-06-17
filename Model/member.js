@@ -12,7 +12,7 @@ const Member = sequelize.define('member', {
     nom: Sequelize.STRING,
     prenom: Sequelize.STRING,
     adresse: Sequelize.STRING,
-    tel: Sequelize.DOUBLE,
+    tel: Sequelize.INTEGER,
     sexe: Sequelize.STRING,
     dateEntree: Sequelize.DATEONLY,
     dateSortie: Sequelize.DATEONLY,

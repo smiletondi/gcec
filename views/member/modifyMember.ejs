@@ -1,0 +1,60 @@
+<%- include('../includes/start'); %>
+
+<div class="container ">
+    <div class="constainer mb-4">
+        <h3>Remplissez pour modifier le membre:</h3>
+    </div>
+    <% if (error) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong> <%= error %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% } %>
+    <div class="form-group w-50">
+        <form method="POST" action="/modifyMember">
+            <div class="form-group">
+                <label for="nom">Nom du membre</label>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Entrez un nom" value="<%= member.nom %>">
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prenom du membre</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Entrez un prenom" value="<%= member.prenom %>">
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse du membre</label>
+                <input type="text" class="form-control" id="adresse" name="adresse"
+                    placeholder="Entrez une adresse" value="<%= member.adresse %>">
+            </div>
+            <div class="form-group">
+                <label for="tel">Numero de telephone du membre</label>
+                <input type="number" class="form-control" id="tel" name="telephone" value="<%= member.tel %>">
+            </div>
+            <div class="form-group">
+                <label for="tel">Date d'entr&eacute;e du membre</label>
+                <input type="date" class="form-control" id="tel" name="tel" value="<%= member.dateEntree %>">
+            </div>
+            <div class="form-group">
+                <label for="tel">Date de sortie du membre</label>
+                <input type="date" class="form-control" id="tel" name="tel" placeholder="Entrez un numero" value="<%= member.dateSortie %>">
+            </div>
+            <div class="form-group">
+                <label for="sexe">Sexe du membre</label>
+                <br> <input type="radio" name="sexe" id="sexe" value="Masculin" <%= member.sexe=='Masculin'? "checked": '' %>> Masculin
+                <br> <input type="radio" name="sexe" id="sexe" value="Feminin" <%= member.sexe=='Feminin'? "checked": '' %>> Feminin
+            </div>
+
+            <input type="hidden" name="id" value="<%= member.id %>">
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+            <a class="btn btn-danger" href="/conseil/<%= member.conseilId %>">Annuler</a>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+<%- include('../includes/end'); %>

@@ -191,3 +191,55 @@ module.exports.postAddEceptionnalMember = async (req, res, next) => {
         res.redirect('/conseil/'+conseilId);
     }).catch(err => next(err));
 }
+
+module.exports.getModifyMember = async (req, res, next) => {
+    const memberId = req.params.member;
+    const msg = req.query.msg;
+    const member= await Member.findOne({
+        where: {
+            id: memberId
+        }
+    });
+
+        return res.render('./member/modifyMember.ejs', {
+            title: 'Modifier un membre',
+            member: member,
+            error: msg
+        });
+}
+module.exports.postModifyMember = async (req, res, next) => {
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
+    const adresse = req.body.adresse;
+    const tel = req.body.telephone;
+    const dateEntree= req.body.dateEntree;
+    const dateSortie= req.body.dateSortie;
+    const sexe = req.body.sexe;
+    const id = req.body.id;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.redirect('/addMember?conseil=' + id + '&msg=' + errors.array()[0].msg);
+    }
+
+    const member = await Member.findOne({
+        where: {
+            id: id
+        }
+    });
+
+    member.update({
+        nom: nom,
+        prenom: prenom,
+        adresse: adresse,
+        tel: tel,
+        sexe: sexe,
+        dateEntree: dateEntree,
+        dateSortie: dateSortie
+    }).then(a => {
+        console.log('Conseil Member updated');
+        res.redirect('/conseil/' + member.conseilId);
+    }).catch(err => console.error(err));
+
+}
