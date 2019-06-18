@@ -31,7 +31,8 @@ router.get('/download', async (req, res, next) => {
       }
     });
     instanceName = conseil.nom;
-    url = 'http://localhost:3000/rapport?conseil=' + conseilId;
+    url = req.protocol+'://'+req.get('host')+'/rapport?conseil=' + conseilId;
+    console.log(url);
   } else if (commissionId) {
     const commission = await Commission.findOne({
       raw: true,
