@@ -177,7 +177,7 @@ module.exports.postAddEceptionnalMember = async (req, res, next) => {
         sexe: sexe,
         dateEntree: dateEntree,
         dateSortie: conseil.finPeriode,
-        aRemplce: oldMember.id,
+        aRemplace: oldMember.id,
         conseilId: conseilId
     }).then(rez => {
         console.log('New member created');

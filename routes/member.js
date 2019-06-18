@@ -25,7 +25,7 @@ const checkAddMember= [
         .isIn(['Masculin','Feminin'])
         .trim()
 ];
-router.post('/addMemberCons', isAuth, checkAddMember, memberController.postAddMemberCons);
+router.post('/addMemberCons', isAuth, memberController.postAddMemberCons);
 router.post('/addMemberComm', isAuth, memberController.postAddMemberComm);
 
 router.get('/ajoutExeptionnel', isAuth, memberController.getAddEceptionnalMember);

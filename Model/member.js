@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 const Conseil = require('./conseil');
 
-const Member = sequelize.define('member', {
+var Member = sequelize.define('member', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -17,7 +17,14 @@ const Member = sequelize.define('member', {
     dateEntree: Sequelize.DATEONLY,
     dateSortie: Sequelize.DATEONLY,
     remplace: Sequelize.BOOLEAN,
-    remplacePar: Sequelize.INTEGER,
+    // remplacePar: {
+    //     type: Sequelize.INTEGER,
+    //     foreignKey: true,
+    //     // references: {
+    //     //     model: "Member",
+    //     //     key: "id"
+    //     // }
+    // },
     aRemplace: Sequelize.INTEGER
 }, {
         timestamps: false
@@ -34,6 +41,9 @@ Conseil.hasMany(Member, {
     onDelete: 'CASCADE'
 });
 
-
+Member.hasOne(Member, {
+    as : "Remplaceur",
+    foreignKey: "remplacePar"
+});
 
 module.exports = Member;

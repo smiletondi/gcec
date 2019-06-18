@@ -15,11 +15,11 @@ const commRouter = require('./routes/commission');
 const memberRouter = require('./routes/member');
 
 // Models
-const Admin = require('./Model/admin');
-const Commission = require('./Model/commission');
-const Conseil = require('./Model/conseil');
-const CommissionMembers = require('./Model/commissionMembers')
-const Member = require('./Model/member');
+// const Admin = require('./Model/admin');
+// const Commission = require('./Model/commission');
+// const Conseil = require('./Model/conseil');
+// const CommissionMembers = require('./Model/commissionMembers')
+// const Member = require('./Model/member');
 
 var app = express();
 const sessionStore = new SequelizeSTORE({
