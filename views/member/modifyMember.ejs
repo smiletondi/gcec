@@ -23,6 +23,13 @@
                 <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Entrez un prenom" value="<%= member.prenom %>">
             </div>
             <div class="form-group">
+                <label for="statut">Statut du membre</label>
+                <br> <input type="radio" name="statut" id="statut" value="president" <%= member.statut=='president'? "checked": '' %>> President
+                <br> <input type="radio" name="statut" id="statut" value="membre" <%= member.statut=='membre'? "checked": '' %>> Membre
+                <br> <input type="radio" name="statut" id="statut" value="doyen" <%= member.statut=='doyen'? "checked": '' %>> Doyen
+                <br> <input type="radio" name="statut" id="statut" value="vice-doyen" <%= member.statut=='vice-doyen'? "checked": '' %>> Vice-doyen
+            </div>
+            <div class="form-group">
                 <label for="adresse">Adresse du membre</label>
                 <input type="text" class="form-control" id="adresse" name="adresse"
                     placeholder="Entrez une adresse" value="<%= member.adresse %>">
@@ -30,6 +37,10 @@
             <div class="form-group">
                 <label for="tel">Numero de telephone du membre</label>
                 <input type="number" class="form-control" id="tel" name="telephone" value="<%= member.tel %>">
+            </div>
+            <div class="form-group">
+                <label for="tel">Adresse email du membre</label>
+                <input type="email" class="form-control" id="email" name="email" value="<%= member.email %>">
             </div>
             <div class="form-group">
                 <label for="tel">Date d'entr&eacute;e du membre</label>
@@ -46,15 +57,45 @@
             </div>
 
             <input type="hidden" name="id" value="<%= member.id %>">
-            <button type="submit" class="btn btn-primary">Modifier</button>
+            <a class="btn btn-primary" data-toggle="modal" data-id="<%= member.id %>" data-target="#modifyModal">Modifier</a>
             <a class="btn btn-danger" href="/conseil/<%= member.conseilId %>">Annuler</a>
         </form>
     </div>
 </div>
 
-
-
-
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation de modification</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Etes-vous s&ucirc;r de vouloir modifier ce membre ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                <button id="modifyButton" class="btn btn-success btn-lg" type="button">Oui</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <%- include('../includes/end'); %>
+<script>
+    $('#modifyModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget); // Button that triggered the modal
+        const id= button.data('id');
+        
+        let confButton = $('#modifyButton');
+        console.log(confButton);
+        confButton.click(() => {
+            console.log('jknsdo');
+            button.closest("form").submit();
+        });
+    })
+
+</script>

@@ -40,8 +40,8 @@
             <tbody>
                 <% currentMembers.forEach(member=>{ %>
                 <tr>
-                    <td scope="row" style="cursor: pointer;" data-toggle="modal" data-id="<%= member.id %>" data-target="#modifyModal">
-                        <strong><%= member.nom %></strong></th>
+                    <td >
+                        <a href="/modifyMember/<%= member.id %>"><strong><%= member.nom %></strong></a>
                     <td ><%= member.prenom %>
                     </td>
                     <td><%= member.adresse %></td>
@@ -83,7 +83,7 @@
             <tbody>
                 <% oldMembers.forEach(member=>{ %>
                 <tr>
-                    <th style="cursor: pointer;" data-toggle="modal" data-id="<%= member.id %>" data-target="#modifyModal"><%= member.nom %></th>
+                    <td><a href="/modifyMember/<%= member.id %>"><strong><%= member.nom %></strong></a></td>
                     <td><%= member.prenom %></td>
                     <td><%= member.adresse %></td>
                     <td><%= member.tel %></td>
@@ -118,25 +118,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmation de modification</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Etes-vous s&ucirc;r de vouloir modifier ce membre ?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
-                <button id="modifyButton" class="btn btn-success btn-lg" type="button">Oui</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <%- include('../includes/end'); %>
 
@@ -148,15 +130,5 @@
         confButton.click(() => {
             button.closest('form').submit(); // submit the form where the button is contained
         })
-    })
-    $('#modifyModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget); // Button that triggered the modal
-        const id= button.data('id');
-        
-        let confButton = $('#modifyButton');
-        console.log(confButton);
-        confButton.click(() => {
-            window.location.replace('/modifyMember/'+id);
-        });
     })
 </script>

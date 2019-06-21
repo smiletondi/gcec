@@ -12,20 +12,13 @@ var Member = sequelize.define('member', {
     nom: Sequelize.STRING,
     prenom: Sequelize.STRING,
     adresse: Sequelize.STRING,
-    tel: Sequelize.INTEGER,
+    email: Sequelize.STRING,
+    tel: Sequelize.DOUBLE,
     sexe: Sequelize.STRING,
     dateEntree: Sequelize.DATEONLY,
     dateSortie: Sequelize.DATEONLY,
     remplace: Sequelize.BOOLEAN,
-    // remplacePar: {
-    //     type: Sequelize.INTEGER,
-    //     foreignKey: true,
-    //     // references: {
-    //     //     model: "Member",
-    //     //     key: "id"
-    //     // }
-    // },
-    aRemplace: Sequelize.INTEGER
+    statut: Sequelize.STRING
 }, {
         timestamps: false
     });
@@ -39,11 +32,6 @@ Member.belongsTo(Conseil, {
 Conseil.hasMany(Member, {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
-});
-
-Member.hasOne(Member, {
-    as : "Remplaceur",
-    foreignKey: "remplacePar"
 });
 
 module.exports = Member;

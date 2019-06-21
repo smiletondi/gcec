@@ -1,3 +1,5 @@
+const Op= require('sequelize').Op;
+
 const Conseil = require('../Model/conseil');
 const Commision = require("../Model/commission");
 const Member = require("../Model/member");
@@ -89,7 +91,9 @@ module.exports.getConseilDetail = (req, res, next) => {
     }).then(async (cons) => {
         const oldMembers = await cons.getMembers({
             where: {
-                remplace: true
+                remplace: {
+                    [Op.ne]: null
+                }
             }
         });
 
@@ -100,7 +104,7 @@ module.exports.getConseilDetail = (req, res, next) => {
                 remplaceur: await Member.findOne( {
                     raw:true,
                     where: {
-                        id: member.remplacePar
+                        id: member.remplace
                     }
                 })
             }

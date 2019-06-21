@@ -23,9 +23,19 @@
                 <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Entrez un prenom">
             </div>
             <div class="form-group">
+                <label for="statut">Statut du membre</label>
+                <br> <input type="radio" name="statut" id="statut" value="president"> President
+                <br> <input type="radio" name="statut" id="statut" value="membre" checked> Membre
+                <br> <input type="radio" name="statut" id="statut" value="doyen"> Doyen
+                <br> <input type="radio" name="statut" id="statut" value="vice-doyen"> Vice-doyen
+            </div>
+            <div class="form-group">
+                <label for="tel">Adresse email du membre</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Entrez l'adresse email du membre">
+            </div>
+            <div class="form-group">
                 <label for="adresse">Adresse du membre</label>
-                <input type="text" class="form-control" id="adresse" name="adresse"
-                    placeholder="Entrez une adresse">
+                <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Entrez une adresse">
             </div>
             <div class="form-group">
                 <label for="tel">Numero de telephone du membre</label>

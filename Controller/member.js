@@ -48,8 +48,9 @@ module.exports.postAddMemberCons = async (req, res, next) => {
     const adresse = req.body.adresse;
     const tel = req.body.tel;
     const sexe = req.body.sexe;
+    const email = req.body.email;
     const id = req.body.id;
-    const type = req.body.type;
+    const statut = req.body.statut;
 
     const errors = validationResult(req);
 
@@ -69,6 +70,8 @@ module.exports.postAddMemberCons = async (req, res, next) => {
         adresse: adresse,
         tel: tel,
         sexe: sexe,
+        statut: statut,
+        email: email,
         conseilId: conseil.id,
         dateEntree: conseil.debutPeriode,
         dateSortie: conseil.finPeriode
@@ -143,7 +146,7 @@ module.exports.getAddEceptionnalMember = async (req, res, next) => {
             remplace: null
         }
     });
-    return res.render('./member/addChangedMember.ejs', {
+    return res.render('./member/addExceptionnalMember.ejs', {
         title: 'Ajouter un membre',
         conseilId: conseilId,
         members: conseilMembers
@@ -154,6 +157,7 @@ module.exports.postAddEceptionnalMember = async (req, res, next) => {
     const dateEntree = req.body.dateEntree;
     const nom = req.body.nom;
     const prenom = req.body.prenom;
+    const statut = req.body.statut;
     const adresse = req.body.adresse;
     const tel = req.body.tel;
     const sexe = req.body.sexe;
@@ -174,17 +178,16 @@ module.exports.postAddEceptionnalMember = async (req, res, next) => {
         prenom: prenom,
         adresse: adresse,
         tel: tel,
+        statut: statut,
         sexe: sexe,
         dateEntree: dateEntree,
         dateSortie: conseil.finPeriode,
-        aRemplace: oldMember.id,
         conseilId: conseilId
     }).then(rez => {
         console.log('New member created');
         return oldMember.update({
             dateSortie: rez.dateEntree,
-            remplace: true,
-            remplacePar: rez.id
+            remplace: rez.id,
         });
     }).then(rez=>{
         console.log('Old member added');
@@ -213,6 +216,8 @@ module.exports.postModifyMember = async (req, res, next) => {
     const adresse = req.body.adresse;
     const tel = req.body.telephone;
     const dateEntree= req.body.dateEntree;
+    const statut= req.body.statut;
+    const email = req.body.email;
     const dateSortie= req.body.dateSortie;
     const sexe = req.body.sexe;
     const id = req.body.id;
@@ -233,7 +238,9 @@ module.exports.postModifyMember = async (req, res, next) => {
         nom: nom,
         prenom: prenom,
         adresse: adresse,
+        email: email,
         tel: tel,
+        statut: statut,
         sexe: sexe,
         dateEntree: dateEntree,
         dateSortie: dateSortie
